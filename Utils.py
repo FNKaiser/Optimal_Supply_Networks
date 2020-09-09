@@ -77,3 +77,27 @@ def reoptimize_network(G,N,gamma,index_source_node,sigma,K=1,threshold = 1e-6):
         last_change = np.sum((new_line_capacities-line_capacities)**2)
         iterations += 1
     return G
+
+def calc_potential_drop(F,potential_edges,gamma,index_source_node,mu,sigma):
+    N = len(F.nodes())
+    #### following is correlation matrix for sources assuming Gaussian sources with unit mean, a single sink and variance sigma
+    correlation_matrix_sources = np.ones((N,N))
+    np.fill_diagonal(correlation_matrix_sources,mu**2+sigma**2)
+    correlation_matrix_sources[index_source_node,:] = - (N-1)*mu**2-sigma**2
+    correlation_matrix_sources[:,index_source_node] = - (N-1)*mu**2-sigma**2
+    correlation_matrix_sources[index_source_node,index_source_node] = (N-1)**2*mu**2+(N-1)*sigma**2
+    #### calculate correlation matrix of angles
+    L = nx.laplacian_matrix(F).A
+    R = np.linalg.pinv(L)
+    ###calculate correlation matrices
+    correlation_matrix_thetas = np.linalg.multi_dot([R,correlation_matrix_sources,R.T])
+    ### removed edges are potential new edges
+    node1 = 0
+    node2 = 0
+    potential_drops = {}
+    for u,v in potential_edges:
+        index_u = list(F.nodes()).index(u)
+        index_v = list(F.nodes()).index(v)
+        new_potential_drop = correlation_matrix_thetas[index_u,index_u]+correlation_matrix_thetas[index_v,index_v] -2*correlation_matrix_thetas[index_u,index_v]
+        potential_drops[(u,v)] = new_potential_drop
+    return potential_drops
