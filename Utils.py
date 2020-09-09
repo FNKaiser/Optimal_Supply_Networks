@@ -104,3 +104,21 @@ def calc_potential_drop(F,potential_edges,gamma,index_source_node,mu,sigma):
         new_potential_drop = correlation_matrix_thetas[index_u,index_u]+correlation_matrix_thetas[index_v,index_v] -2*correlation_matrix_thetas[index_u,index_v]
         potential_drops[(u,v)] = new_potential_drop
     return potential_drops
+
+def calc_average_dissipation(G,sigma,mu,index_source_node):
+    """Calculate average dissipation for the network encoded by G"""
+    
+    line_capacities = np.array([G[u][v]['weight'] for u,v in G.edges()])
+    
+    correlation_matrix_sources = np.ones((N,N))
+    np.fill_diagonal(correlation_matrix_sources,mu**2+sigma**2)
+    correlation_matrix_sources[index_source_node,:] = - (N-1)*mu**2-sigma**2
+    correlation_matrix_sources[:,index_source_node] = - (N-1)*mu**2-sigma**2
+    correlation_matrix_sources[index_source_node,index_source_node] = (N-1)**2*mu**2+(N-1)*sigma**2
+    
+    L = nx.laplacian_matrix(G).A
+    B = np.linalg.pinv(L)
+    I = nx.incidence_matrix(G,oriented=True).A
+    flow_correlations = np.linalg.multi_dot([np.diag(line_capacities),I.T,B,correlation_matrix_sources,B,I,np.diag(line_capacities)])
+    dissipation = np.sum(np.diag(flow_correlations)/line_capacities)
+    return dissipation
