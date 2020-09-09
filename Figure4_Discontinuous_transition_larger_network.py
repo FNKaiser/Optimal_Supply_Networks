@@ -17,7 +17,7 @@ for i in range(len(F.edges())):
         potential_edges.append(list(F.edges())[i])
 F.remove_edges_from(potential_edges)
 
-
+# Parameters for fluctuating sink model. See manuscript for details
 gamma_old = gamma
 sigma = 0.5
 mu = 1
