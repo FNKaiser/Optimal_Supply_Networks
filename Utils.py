@@ -110,6 +110,8 @@ def calc_average_dissipation(G,sigma,mu,index_source_node):
     
     line_capacities = np.array([G[u][v]['weight'] for u,v in G.edges()])
     
+    N = len(G.nodes())
+    
     correlation_matrix_sources = np.ones((N,N))
     np.fill_diagonal(correlation_matrix_sources,mu**2+sigma**2)
     correlation_matrix_sources[index_source_node,:] = - (N-1)*mu**2-sigma**2
