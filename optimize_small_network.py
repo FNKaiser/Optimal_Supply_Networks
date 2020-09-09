@@ -42,10 +42,12 @@ def dissipation_function(caps,mu,sigma,gamma,K):
 cost = 1
 mu = -1
 sigma = 3
-gammas = np.arange(0.8,1.00001,0.0001)
+gammas = np.arange(0.8,1.00001,0.005)
 
 nof_repetitions = 400
 count = 0
+
+k_results = []
 
 for gamma in gammas:
     k_results.append([])
@@ -55,7 +57,7 @@ for gamma in gammas:
         # start from different random values of the capacities to find all solution branches
         k0 = np.random.random(3)
         # find roots of derivative function in terms of the capacities
-        res = root(dissipation_lagrangian_derivatives_complete,k0 = x0,args = args)
+        res = root(dissipation_lagrangian_derivatives_complete,x0 = k0,args = args)
         if res.success:
             k_results[count].append(res.x)
         else:
@@ -78,22 +80,22 @@ realised_gammas = []
 lower_cost_capacities = []
 higher_cost_capacities = []
 for i in range(len(gammas)):
-      if not np.all(np.isnan(unique_array[i])):
-         cost_values = []
-         for j in range(int(len(unique_array[i])/3)):
-             dissipation = dissipation_function(unique_array[i][3*j:3*(j+1)],mu,sigma,gammas[i],cost)
-             cost_values.append(dissipation)
-         indices = np.argsort(cost_values)
-         realised_gammas.append(gammas[i])
-         lower_cost_capacities.append(unique_array[i][3*indices[0]:3*(indices[0]+1)])
-         higher_cost_capacities.append(unique_array[i][3*indices[-1]:3*(indices[-1]+1)])
+      if not np.all(np.isnan(unique_capacities[i])):
+        cost_values = []
+        for j in range(int(len(unique_capacities[i])/3)):
+            dissipation = dissipation_function(unique_capacities[i][3*j:3*(j+1)],mu,sigma,gammas[i],cost)
+            cost_values.append(dissipation)
+        indices = np.argsort(cost_values)
+        realised_gammas.append(gammas[i])
+        lower_cost_capacities.append( unique_capacities[i][3*indices[0]:3*(indices[0]+1)])
+        higher_cost_capacities.append(unique_capacities[i][3*indices[-1]:3*(indices[-1]+1)])
 lower_cost_capacities = np.array(lower_cost_capacities)
 higher_cost_capacities = np.array(higher_cost_capacities)
 
 k_results_tree = np.zeros((len(gammas),2))
 count = 0
 for gamma in gammas:
-    k_results_tree[count] = calculate_optimal_capacities_tree(mu,sigma,gamma,K)
+    k_results_tree[count] = calculate_optimal_capacities_tree(mu,sigma,gamma,cost)[:2]
     count +=1 
     
 # Finally, determine globally optimal capacities
