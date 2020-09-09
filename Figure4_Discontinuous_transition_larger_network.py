@@ -5,8 +5,11 @@ import numpy as np
 N = 6
 gamma = 0.7
 
+# Create backbone tree network
 G = Utils.parametrize_tree(N,gamma)
 
+# remove all non tree edges 
+# these will be called 'potential edges' since they may potentially add loops to the network
 potential_edges = []
 F = G.copy()
 for i in range(len(F.edges())):
