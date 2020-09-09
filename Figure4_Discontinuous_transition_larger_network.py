@@ -26,7 +26,8 @@ K = 1
 # index of the node that serves as source
 index_source_node = list(G.nodes()).index((0,int(N/2)))
 
-dissipation_ratios = []
+# the following returns the capacities found via the method due to F.Corson, Fluctuations and Redundancy in Optimal Transport Networks, PRL 2010
+# for each value of gamma and each potential loop to illustrate the discontinuous transition
 optimized_capacities = []
 gammas = np.arange(0.7,0.99,0.001)
 
