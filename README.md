@@ -14,4 +14,5 @@ This Computer Code should be used together with the associated [manuscript](ADD 
 
 Each script is named after the Figure in the manuscript for whose creation it may be used.
 
-The code is written in *python* and makes use of *numpy, scipy* and *networkx*.
+The code for the fluctuation model is written in *python* and makes use of *numpy, scipy* and *networkx*.
+The code for the damage model is written in *Julia* and makes use of *LightGraphs.jl* and *NLsolve.jl*.
