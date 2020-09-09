@@ -16,3 +16,9 @@ Each script is named after the Figure in the manuscript for whose creation it ma
 
 The code for the fluctuation model is written in *python* and makes use of *numpy, scipy* and *networkx*.
 The code for the damage model is written in *Julia* and makes use of *LightGraphs.jl* and *NLsolve.jl*.
+
+
+<h4>
+   Citation
+   </h4>
+
