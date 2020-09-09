@@ -79,6 +79,9 @@ def reoptimize_network(G,N,gamma,index_source_node,sigma,K=1,threshold = 1e-6):
     return G
 
 def calc_potential_drop(F,potential_edges,gamma,index_source_node,mu,sigma):
+    """ Calculate the average squared pressure drop (see Figure 5) for all edges indicated as
+    'potential_edges' and the graph F
+    """
     N = len(F.nodes())
     #### following is correlation matrix for sources assuming Gaussian sources with unit mean, a single sink and variance sigma
     correlation_matrix_sources = np.ones((N,N))
