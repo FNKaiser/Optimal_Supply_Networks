@@ -10,7 +10,7 @@
   </h3>
  </p>
 
-This Computer Code should be used together with the associated [manuscript](dx.doi.org/10.1038/s41467-020-19567-2). It serves to find the dissipation-optimal capacities for networks under cost constraints.
+This Computer Code should be used together with the associated [manuscript](https://dx.doi.org/10.1038/s41467-020-19567-2). It serves to find the dissipation-optimal capacities for networks under cost constraints.
 
 Each script is named after the Figure in the manuscript for whose creation it may be used.
 
