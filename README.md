@@ -21,4 +21,4 @@ The code for the damage model is written in *Julia* and makes use of *LightGraph
 <h4>
    Citation
    </h4>
-
+F. Kaiser, H. Ronellenfitsch, and D. Witthaut, Discontinuous transition to loop formation in optimal supply networks, Nature Communications 11, 5796 (2020)
